@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,11 +26,14 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
-                
-    }
+
+}
 
 
     void Update()
+
+    
+
     {
         if(moveInput.x > 0)
         {
@@ -48,5 +52,16 @@ public class PlayerController : MonoBehaviour
             myAnimator.SetBool("move", false);
         }
             transform.Translate(Vector3.right * moveSpeed * moveInput.x * Time.deltaTime);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.name == "Death")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            SceneManager.LoadScene("PlayScene_" + collision.name);
+        }
     }
 }
